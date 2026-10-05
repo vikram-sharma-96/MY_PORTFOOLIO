@@ -1,0 +1,384 @@
+/* The scene uses CSS depth and a few composited layers; no video or WebGL download. */
+.hero-atmosphere {
+  inset: 48px -42px -26px;
+  background:
+    radial-gradient(ellipse at 79% 24%, #b8ed7d0d, transparent 38%),
+    linear-gradient(118deg, transparent 36%, #a9cf7810 52%, transparent 66%);
+}
+.hero-grid {
+  background-size: 54px 54px;
+  opacity: 0.8;
+}
+.hero-atmosphere::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    380px circle at var(--light-x, 70%) var(--light-y, 34%),
+    #b9ea7d13,
+    transparent 80%
+  );
+}
+.hero-light {
+  position: absolute;
+  display: block;
+  width: 46%;
+  height: 140%;
+  top: -34%;
+  border-radius: 50%;
+  filter: blur(34px);
+  transform: rotate(24deg);
+  pointer-events: none;
+}
+.hero-light-one {
+  right: 20%;
+  background: linear-gradient(
+    90deg,
+    transparent 42%,
+    #a4d86b0b 50%,
+    transparent 57%
+  );
+}
+.hero-light-two {
+  right: -5%;
+  background: linear-gradient(
+    90deg,
+    transparent 43%,
+    #cceba909 50%,
+    transparent 55%
+  );
+}
+.developer-visual {
+  --scene-rotate-x: 0deg;
+  --scene-rotate-y: 0deg;
+  perspective: 1200px;
+}
+.visual-stage {
+  position: relative;
+  z-index: 1;
+  transform: rotateX(var(--scene-rotate-x)) rotateY(var(--scene-rotate-y));
+  transform-style: preserve-3d;
+}
+.visual-stage .code-window {
+  margin-inline: auto;
+  box-shadow:
+    0 35px 90px #0009,
+    0 0 72px #b9e67a0b;
+  backdrop-filter: blur(16px);
+}
+.spatial-scene {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  pointer-events: none;
+  z-index: 2;
+}
+.spatial-halo {
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  top: 13%;
+  right: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    #baf17817,
+    #749d3c0d 33%,
+    transparent 70%
+  );
+}
+.spatial-ring {
+  position: absolute;
+  display: block;
+  width: 208px;
+  height: 208px;
+  top: 20%;
+  right: 2%;
+  border: 1px solid #bddb9052;
+  border-radius: 50%;
+  box-shadow:
+    0 0 18px #c2ed8312,
+    inset 0 0 18px #c2ed8309;
+}
+.spatial-ring-one {
+  transform: rotateX(69deg) rotateZ(-31deg);
+}
+.spatial-ring-two {
+  transform: rotateY(68deg) rotateZ(16deg);
+  border-color: #a6c97935;
+}
+.spatial-cube {
+  position: absolute;
+  display: block;
+  top: 31%;
+  right: -4%;
+  width: 84px;
+  height: 84px;
+  transform-style: preserve-3d;
+  transform: rotateX(-26deg) rotateY(34deg);
+}
+.cube-face {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border: 1px solid #d0f7a19c;
+  background: linear-gradient(135deg, #bcf28e30, #658e4f12 60%, #b5ea8620);
+  box-shadow:
+    inset 0 0 28px #b9ed7d1c,
+    0 0 16px #b9ed7d14;
+  backface-visibility: visible;
+}
+.cube-front {
+  transform: translateZ(42px);
+}
+.cube-back {
+  transform: rotateY(180deg) translateZ(42px);
+}
+.cube-right {
+  transform: rotateY(90deg) translateZ(42px);
+}
+.cube-left {
+  transform: rotateY(-90deg) translateZ(42px);
+}
+.cube-top {
+  transform: rotateX(90deg) translateZ(42px);
+}
+.cube-bottom {
+  transform: rotateX(-90deg) translateZ(42px);
+}
+.spatial-point {
+  position: absolute;
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow:
+    0 0 0 6px #c2ed8314,
+    0 0 18px #c2ed83;
+}
+.point-one {
+  top: 17%;
+  right: 6%;
+}
+.point-two {
+  top: 56%;
+  right: 2%;
+}
+.point-three {
+  top: 63%;
+  right: 23%;
+}
+
+#projects {
+  position: relative;
+  isolation: isolate;
+}
+#projects::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: min(780px, 70vw);
+  height: 640px;
+  top: 20%;
+  right: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse, #a6d8750e, transparent 66%);
+}
+#projects .project-visual::after {
+  content: "";
+  position: absolute;
+  inset: -80% -50%;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 42%,
+    #ffffff12 50%,
+    transparent 58%
+  );
+  transform: translateX(-80%) rotate(-9deg);
+}
+#projects .project-visual > div {
+  transform-origin: 50% 75%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .visual-stage {
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .hero.visual-active .hero-light-one {
+    animation: light-drift 18s ease-in-out infinite alternate;
+  }
+  .hero.visual-active .hero-light-two {
+    animation: light-drift 23s ease-in-out infinite alternate-reverse;
+  }
+  .developer-visual.visual-active .spatial-cube {
+    animation: cube-turn 17s linear infinite;
+  }
+  .developer-visual.visual-active .spatial-ring-one {
+    animation: ring-one 21s linear infinite;
+  }
+  .developer-visual.visual-active .spatial-ring-two {
+    animation: ring-two 26s linear infinite;
+  }
+  #projects .project-visual::after {
+    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes light-drift {
+    from {
+      translate: -9% 0;
+      opacity: 0.45;
+    }
+    to {
+      translate: 10% 7%;
+      opacity: 1;
+    }
+  }
+  @keyframes cube-turn {
+    from {
+      transform: rotateX(-26deg) rotateY(34deg);
+    }
+    to {
+      transform: rotateX(334deg) rotateY(394deg);
+    }
+  }
+  @keyframes ring-one {
+    from {
+      transform: rotateX(69deg) rotateZ(-31deg);
+    }
+    to {
+      transform: rotateX(69deg) rotateZ(329deg);
+    }
+  }
+  @keyframes ring-two {
+    from {
+      transform: rotateY(68deg) rotateZ(16deg);
+    }
+    to {
+      transform: rotateY(68deg) rotateZ(-344deg);
+    }
+  }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  #projects .project-card:hover .project-visual::after {
+    transform: translateX(80%) rotate(-9deg);
+  }
+}
+@media (max-width: 1200px) {
+  .spatial-ring {
+    right: 2%;
+    width: 175px;
+    height: 175px;
+  }
+  .spatial-cube {
+    right: -2%;
+    width: 70px;
+    height: 70px;
+  }
+  .cube-front {
+    transform: translateZ(35px);
+  }
+  .cube-back {
+    transform: rotateY(180deg) translateZ(35px);
+  }
+  .cube-right {
+    transform: rotateY(90deg) translateZ(35px);
+  }
+  .cube-left {
+    transform: rotateY(-90deg) translateZ(35px);
+  }
+  .cube-top {
+    transform: rotateX(90deg) translateZ(35px);
+  }
+  .cube-bottom {
+    transform: rotateX(-90deg) translateZ(35px);
+  }
+}
+@media (max-width: 760px) {
+  .hero-atmosphere {
+    inset: 76px -10px 0;
+  }
+  .hero-light {
+    width: 65%;
+    opacity: 0.5;
+  }
+  .spatial-halo {
+    right: 0;
+    width: 240px;
+    height: 240px;
+  }
+  .spatial-ring {
+    right: 2%;
+    width: 145px;
+    height: 145px;
+  }
+  .spatial-cube {
+    right: 3%;
+    width: 58px;
+    height: 58px;
+  }
+  .cube-front {
+    transform: translateZ(29px);
+  }
+  .cube-back {
+    transform: rotateY(180deg) translateZ(29px);
+  }
+  .cube-right {
+    transform: rotateY(90deg) translateZ(29px);
+  }
+  .cube-left {
+    transform: rotateY(-90deg) translateZ(29px);
+  }
+  .cube-top {
+    transform: rotateX(90deg) translateZ(29px);
+  }
+  .cube-bottom {
+    transform: rotateX(-90deg) translateZ(29px);
+  }
+}
+@media (max-width: 400px) {
+  .spatial-scene {
+    opacity: 0.7;
+  }
+  .spatial-ring {
+    right: 2%;
+    top: 19%;
+    width: 120px;
+    height: 120px;
+  }
+  .spatial-cube {
+    right: 7%;
+    top: 29%;
+    width: 48px;
+    height: 48px;
+  }
+  .cube-front {
+    transform: translateZ(24px);
+  }
+  .cube-back {
+    transform: rotateY(180deg) translateZ(24px);
+  }
+  .cube-right {
+    transform: rotateY(90deg) translateZ(24px);
+  }
+  .cube-left {
+    transform: rotateY(-90deg) translateZ(24px);
+  }
+  .cube-top {
+    transform: rotateX(90deg) translateZ(24px);
+  }
+  .cube-bottom {
+    transform: rotateX(-90deg) translateZ(24px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-light {
+    display: none;
+  }
+  .visual-stage {
+    transform: none;
+  }
+  #projects .project-visual::after {
+    display: none;
+  }
+}
