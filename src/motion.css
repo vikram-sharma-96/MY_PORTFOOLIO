@@ -1,0 +1,341 @@
+/* Reference-inspired motion. Colors and base layout remain in styles.css. */
+.hero {
+  isolation: isolate;
+}
+.hero-atmosphere {
+  position: absolute;
+  inset: 70px -18px 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: 24px;
+}
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(#c2ed8308 1px, transparent 1px),
+    linear-gradient(90deg, #c2ed8308 1px, transparent 1px);
+  background-size: 58px 58px;
+  mask-image: radial-gradient(ellipse at 65% 30%, #000, transparent 72%);
+}
+.hero-spotlight {
+  position: absolute;
+  width: 70%;
+  height: 95%;
+  top: -35%;
+  right: -3%;
+  background: radial-gradient(ellipse, #c2ed8312, transparent 67%);
+  transform: rotate(-28deg);
+}
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  z-index: 50;
+  pointer-events: none;
+}
+.section-heading h2 > .reveal-text {
+  color: inherit;
+}
+.section-heading h2 > .heading-accent {
+  color: var(--muted);
+}
+.word-clip {
+  display: inline-block;
+  overflow: clip;
+  vertical-align: bottom;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.word-reveal {
+  display: inline-block;
+}
+.project-shell {
+  position: relative;
+  perspective: 1200px;
+  min-width: 0;
+}
+.project-shell .project-card {
+  height: 100%;
+  position: relative;
+  transform-origin: center 60%;
+}
+.project-pin {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 16px);
+  white-space: nowrap;
+}
+.project-pin > span {
+  font:
+    9px "DM Sans",
+    sans-serif;
+  letter-spacing: 1.5px;
+  color: #d6e9be;
+  padding: 9px 14px;
+  border-radius: 20px;
+  border: 1px solid #8cab5d70;
+  background: #171e13f5;
+  box-shadow: 0 5px 25px #0005;
+}
+.project-pin > i {
+  height: 64px;
+  width: 1px;
+  background: linear-gradient(var(--accent), #c2ed8333);
+  box-shadow: 0 0 9px #c2ed8370;
+}
+.project-pin > b {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow:
+    0 0 0 6px #c2ed8312,
+    0 0 0 14px #c2ed8307;
+}
+.project-card::after,
+.skill-card::after,
+.certificate-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    260px circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
+    #c2ed8311,
+    transparent 75%
+  );
+}
+.certificate-card {
+  position: relative;
+  overflow: hidden;
+}
+.timeline {
+  position: relative;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  width: 2px;
+  left: -1px;
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(#829c60, var(--accent));
+  transform: scaleY(var(--journey-progress, 0));
+  transform-origin: top;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero.visual-active .hero-spotlight {
+    animation: spotlight-drift 12s ease-in-out infinite alternate;
+  }
+  .hero .word-reveal {
+    animation: word-rise 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(100ms + var(--word-delay));
+  }
+  .motion-enabled .section-heading .word-reveal {
+    opacity: 0;
+    transform: translateY(110%) rotate(3deg);
+    transition:
+      transform 0.85s cubic-bezier(0.16, 1, 0.3, 1) var(--word-delay),
+      opacity 0.6s var(--word-delay);
+  }
+  .motion-enabled .section-heading.is-visible .word-reveal {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+  }
+  .motion-enabled .project-shell.reveal {
+    transform: translateY(48px) scale(0.97);
+    transition:
+      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms),
+      opacity 0.7s var(--reveal-delay, 0ms);
+  }
+  .motion-enabled .project-shell.is-visible {
+    transform: none;
+  }
+  .project-shell .project-card {
+    transition:
+      transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+      border-color 0.3s,
+      box-shadow 0.4s;
+  }
+  .project-pin {
+    transition:
+      opacity 0.35s,
+      transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .project-card::after,
+  .skill-card::after,
+  .certificate-card::after {
+    transition: opacity 0.35s;
+  }
+  .visual-active .code-body > div {
+    animation: code-line-in 0.5s both;
+    animation-delay: calc(var(--line-index, 0) * 65ms + 250ms);
+  }
+  .timeline .timeline-icon {
+    transition:
+      color 0.4s,
+      border-color 0.4s,
+      box-shadow 0.6s;
+  }
+  .timeline .is-visible .timeline-icon {
+    border-color: #8da86a;
+    box-shadow: 0 0 0 5px #c2ed8306;
+  }
+  .button-primary {
+    position: relative;
+    overflow: hidden;
+  }
+  .button-primary::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -65%;
+    width: 40%;
+    height: 200%;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, #ffffff45, transparent);
+    transform: skewX(-20deg);
+  }
+  .button-primary:hover::after,
+  .button-primary:focus-visible::after {
+    animation: button-sheen 0.75s ease-out;
+  }
+  .hero .scroll-icon svg {
+    animation: scroll-nudge 2.5s ease-in-out 3;
+  }
+  @keyframes word-rise {
+    from {
+      opacity: 0;
+      transform: translateY(110%) rotate(3deg);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) rotate(0);
+    }
+  }
+  @keyframes code-line-in {
+    from {
+      opacity: 0;
+      transform: translateX(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  @keyframes spotlight-drift {
+    from {
+      transform: translate(-5%, 0) rotate(-28deg);
+      opacity: 0.55;
+    }
+    to {
+      transform: translate(8%, 10%) rotate(-18deg);
+      opacity: 1;
+    }
+  }
+  @keyframes button-sheen {
+    to {
+      left: 145%;
+    }
+  }
+  @keyframes scroll-nudge {
+    0%,
+    70%,
+    100% {
+      transform: translateY(0);
+    }
+    35% {
+      transform: translateY(4px);
+    }
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .project-shell.pointer-active .project-card {
+    transform: rotateX(var(--tilt-x, 3deg)) rotateY(var(--tilt-y, 0deg))
+      translateY(-7px) scale(0.985);
+    border-color: #8da86a;
+    box-shadow: 0 25px 60px #0005;
+  }
+  .project-shell.pointer-active .project-pin {
+    opacity: 1;
+    transform: translate(-50%, -32px);
+  }
+  .project-shell.pointer-active .project-card::after,
+  .skill-card.pointer-active::after,
+  .certificate-card.pointer-active::after {
+    opacity: 1;
+  }
+  .project-card:hover .crop-scan > i {
+    animation: crop-scan 2.5s ease-in-out infinite alternate;
+  }
+  .project-card:hover .event-calendar {
+    transform: rotate(0) translateY(-5px);
+  }
+  .event-calendar {
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes crop-scan {
+    from {
+      transform: translateY(-10px);
+    }
+    to {
+      transform: translateY(60px);
+    }
+  }
+}
+
+@media (max-width: 760px) {
+  .hero-atmosphere {
+    inset: 70px -10px 0;
+  }
+  .hero-spotlight {
+    width: 100%;
+    right: -30%;
+    opacity: 0.6;
+  }
+  .project-pin {
+    display: none;
+  }
+  .motion-enabled .project-shell.reveal {
+    transform: translateY(24px);
+  }
+  .motion-enabled .project-shell.is-visible {
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .word-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .project-shell .project-card,
+  .project-card:hover .project-visual > div {
+    transform: none;
+  }
+  .project-pin,
+  .reading-progress {
+    display: none;
+  }
+  .timeline::before {
+    transform: scaleY(1);
+    opacity: 0.5;
+  }
+}
